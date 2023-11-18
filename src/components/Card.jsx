@@ -1,17 +1,10 @@
 import { useEffect, useState } from "react"
 import { TypeChip } from "./TypeChip"
 
-export const Card = ({pokeUrl, pos}) => {
+export const Card = ({pokeUrl, pos, onClick}) => {
   const [pokemon, setPokemon] = useState();
-  const [isFocus, setIsfocus] = useState(false);
-  const pokecard = document.querySelector('#pokecard');
+  // const pokecard = document.querySelector('#pokecard');
 
-  // useEffect(() => {
-  //   console.log(pokecard?.getBoundingClientRect().x);
-  //   if(pokecard?.getBoundingClientRect().x > window.innerHeight/2){
-  //     setIsfocus(true)
-  //   }
-  // },[pokecard?.scrollTop])
 
   useEffect(() => {
     fetch(pokeUrl).then(res => res.json()).then(jsonRes => setPokemon(jsonRes))
@@ -21,15 +14,16 @@ export const Card = ({pokeUrl, pos}) => {
     <button 
       id="pokecard"
       className={
-        pokemon ? 
-          `bg-[#EDF6EC] p-6 rounded-lg max-w-sm snap-center hover:bg-[#c5ccc4] transition focus:-translate-x-20 duration-500 text-start ${isFocus && 'text-red-600'}`
+        pokemon && pokemon?.order !== -1 ? 
+          `bg-[#EDF6EC] p-6 rounded-lg max-w-sm w-full snap-center hover:bg-[#c5ccc4] transition focus:-translate-x-[100px] duration-500 text-start`
         : 
           "hidden"
       }
-      onClick={() => console.log(pokecard?.getBoundingClientRect())}
+      // onClick={() => console.log(pokecard?.getBoundingClientRect())}
+      onClick={onClick}
     >
       <h2>
-        {pokemon?.order < 10 && `Nº00${pokemon?.order}`}
+        {pokemon?.order > 0 && pokemon?.order < 10 && `Nº00${pokemon?.order}`}
         {pokemon?.order >= 10 && pokemon?.order < 100 && `Nº0${pokemon?.order}`}
         {pokemon?.order >= 100 && `Nº${pokemon?.order}`}
       </h2>

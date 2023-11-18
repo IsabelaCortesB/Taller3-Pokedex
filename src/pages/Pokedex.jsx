@@ -1,11 +1,13 @@
 import { Card } from "../components/Card"
 import pokeball from "../assets/pokeball.png";
 import { useEffect, useState } from "react";
+import { Summary } from "../components/Summary";
 
 export const Pokedex = () => {
   
   const [pokes, setPokes] = useState();
   const [scrollPositionY, setScrollPositionY] = useState(0);
+  const [selectedPoke, setSelectedPoke] = useState();
   const [isSelected, setIsSelected] = useState(false);
 
   useEffect( () => {
@@ -20,6 +22,10 @@ export const Pokedex = () => {
     // console.log(position);
   }
 
+  const fetchSelectedPokemon = (pkmn) => {
+    fetch(pkmn.url).then(res => res.json()).then(res => setSelectedPoke(res))
+  }
+
   return(
     <body className="flex flex-col bg-[#060606]">
       <header className="flex justify-between bg-[#181818] h-[10%] items-center">
@@ -28,11 +34,12 @@ export const Pokedex = () => {
         <img src="" alt="" />
       </header>
       <div className="flex h-[90%]">
-        <main className="w-1/2">
+        <main className="w-[60%] flex justify-center items-center">
+          <Summary poke={selectedPoke} />
         </main>
-        <aside className="h-full w-1/2 overflow-y-scroll flex flex-col gap-5 items-end pr-10 snap-y" onScroll={handleScroll}>
+        <aside className="h-full w-[40%] overflow-y-scroll flex flex-col gap-5 items-end pr-[5%] snap-y" onScroll={handleScroll}>
           {pokes && pokes.map((pkmn, i) => (
-            <Card key={i} pokeUrl={pkmn.url} pos={scrollPositionY}/>
+            <Card key={i} pokeUrl={pkmn.url} pos={scrollPositionY} onClick={() => fetchSelectedPokemon(pkmn)}/>
           ))}
         </aside>
       </div>
