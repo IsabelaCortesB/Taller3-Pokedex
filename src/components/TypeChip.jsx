@@ -18,7 +18,7 @@ export const TypeChip = ({type}) => {
   },[type])
   
   return(
-    <div className={`rounded-full px-2 py-1 font-medium flex items-center gap-2 `} style={{backgroundColor: `#${bg}`}}>
+    <div className={`rounded-full px-2 py-1 font-medium flex items-center gap-2 border-solid border-2 border-white`} style={{backgroundColor: `#${bg}`}}>
       <img src={img} alt="-" className="bg-white rounded-full p-1 w-7"/>
       {type}
     </div>
